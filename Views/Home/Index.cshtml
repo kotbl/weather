@@ -1,0 +1,100 @@
+@{
+    ViewData["Title"] = "Погода — Москва";
+}
+
+<h3 class="mb-4">
+    <span id="city-name">Москва</span>
+    <small class="text-muted" id="local-time"></small>
+</h3>
+
+<!-- Загрузка -->
+<div id="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Загрузка...</span>
+    </div>
+    <p class="mt-2 text-muted">Загрузка данных о погоде...</p>
+</div>
+
+<!-- Ошибка -->
+<div id="error" class="d-none">
+    <div class="alert alert-danger text-center">
+        <p class="mb-2" id="error-message">Не удалось загрузить данные о погоде</p>
+        <button class="btn btn-outline-danger" id="retry-btn">Повторить запрос</button>
+    </div>
+</div>
+
+<!-- Контент погоды -->
+<div id="weather-content" class="d-none">
+
+    <!-- Текущая погода -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img id="current-icon" src="" alt="weather" width="80" height="80" />
+                </div>
+                <div class="col">
+                    <div class="d-flex align-items-baseline gap-2">
+                        <span class="display-4 fw-bold" id="current-temp"></span>
+                        <span class="text-muted" id="current-condition"></span>
+                    </div>
+                    <div class="text-muted" id="current-feelslike"></div>
+                </div>
+                <div class="col-auto text-end text-muted small">
+                    <div id="current-humidity"></div>
+                    <div id="current-wind"></div>
+                    <div id="current-pressure"></div>
+                    <div id="current-uv"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Почасовой прогноз -->
+    <h5 class="mb-3">Почасовой прогноз</h5>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body p-2">
+            <div class="hourly-scroll d-flex gap-2 overflow-auto pb-2" id="hourly-container">
+            </div>
+        </div>
+    </div>
+
+    <!-- Прогноз на 3 дня -->
+    <h5 class="mb-3">Прогноз на 3 дня</h5>
+    <div class="row g-3" id="forecast-container">
+    </div>
+
+</div>
+
+<!-- Шаблон карточки часа -->
+<template id="hour-template">
+    <div class="hour-card text-center flex-shrink-0">
+        <div class="small text-muted" data-field="date"></div>
+        <div class="fw-bold" data-field="time"></div>
+        <img data-field="icon" width="40" height="40" alt="" />
+        <div class="fw-bold" data-field="temp"></div>
+        <div class="small text-muted" data-field="humidity"></div>
+    </div>
+</template>
+
+<!-- Шаблон карточки дня -->
+<template id="forecast-template">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <div class="fw-bold" data-field="day-name"></div>
+                <img data-field="icon" width="64" height="64" alt="" />
+                <div class="fs-5" data-field="condition"></div>
+                <div class="d-flex justify-content-center gap-3 mt-2">
+                    <span class="text-danger fw-bold" data-field="max-temp"></span>
+                    <span class="text-primary" data-field="min-temp"></span>
+                </div>
+                <div class="small text-muted mt-2" data-field="details"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    <script src="~/js/weather.js" asp-append-version="true"></script>
+}
